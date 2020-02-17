@@ -56,6 +56,7 @@ canvas.addEventListener("dblclick", startLine);
 
 function startLine(event) {
     const { clientX: x, clientY: y, type } = event;
+    checkClickedRect(x, y)
     canvas.addEventListener("mousemove", drawLine);
     if (clicked) {
         clicked = false;
@@ -141,4 +142,13 @@ function drawCachedRects() {
         context.fillRect(topX, topY, botX - topX, botY - topY);
         context.fill();
     })
+}
+
+function checkClickedRect(x, y) {
+    console.log(rects, x, y)
+    for (let i = 0; i < rects.length; i++) {
+        const { topX, topY, botY, botX } = rects[i];
+        if (topX < x < (botX - topX) && topY < y < (botY - topY)) return i;
+    }
+    return -1;
 }
