@@ -46,14 +46,17 @@ canvas.height = height;
 
 // canvas clicked and line start drawing
 let clicked = false;
-const log = text => console.log(text)
+
+const log = text => console.log(text);
+
 canvas.addEventListener("mousedown", drawRect);
 canvas.addEventListener("mouseup", cancelDrawRect);
 document.body.addEventListener("keyup", log);
-canvas.addEventListener("mousemove", drawLine);
+canvas.addEventListener("dblclick", startLine);
 
 function startLine(event) {
-    const { clientX: x, clientY: y } = event;
+    const { clientX: x, clientY: y, type } = event;
+    canvas.addEventListener("mousemove", drawLine);
     if (clicked) {
         clicked = false;
         line.botX = x;
@@ -67,18 +70,19 @@ function startLine(event) {
 }
 
 function drawLine(event) {
-    const { clientX: x, clientY: y } = event;
+    const { clientX: x, clientY: y, type } = event;
     if (clicked) {
         // reset field each time and draw again
         context.fillStyle = "white";
         context.fillRect(0, 0, width, height);
 
         drawCachedLines();
-        drawCachedCards();
+        drawCachedRects();
 
         // each time start draw line for current position
         drawSingleLine(line.topX, line.topY, x, y);
     }
+    // 
 }
 
 function drawRect(event) {
@@ -106,6 +110,7 @@ function drawRect(event) {
 function cancelDrawRect(event) {
     rects.push({...rect});
     drawCachedRects();
+    drawCachedLines();
     canvas.removeEventListener("mousemove", drawRect);
 }
 
