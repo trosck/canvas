@@ -1,6 +1,7 @@
 const canvas = document.getElementById("canvas");
 const context = canvas.getContext("2d");
-
+// import { Drawing } from "./draw.js"; // i dont know why, but that doesnt imported,
+//                                         and im just import this above in html
 let windowSizeCoefficient = 1;
 
 const rects = [];
@@ -44,10 +45,19 @@ const {
 canvas.width = width;
 canvas.height = height;
 
+initDrawButtons();
+
 // canvas clicked and line start drawing
 let clicked = false;
 
-const log = text => console.log(text);
+const log = (...text) => console.log(...text);
+
+canvas.addEventListener("click", checkClickedArea);
+
+function checkClickedArea(event) {
+    const { clientX: x, clientY: y, type } = event;
+
+}
 
 canvas.addEventListener("mousedown", drawRect);
 canvas.addEventListener("mouseup", cancelDrawRect);
@@ -91,11 +101,9 @@ function drawRect(event) {
     if (type === "mousemove") {
         context.fillStyle = "white";
         context.fillRect(rect.topX, rect.topY, rect.botX - rect.topX, rect.botY - rect.topY);
-        context.fill();
 
         context.fillStyle = "black";
         context.fillRect(rect.topX, rect.topY, x - rect.topX, y - rect.topY);
-        context.fill();
 
         rect.botX = x;
         rect.botY = y;
@@ -110,6 +118,7 @@ function drawRect(event) {
 
 function cancelDrawRect(event) {
     rects.push({...rect});
+    // context.clearRect(0, 0, width, height);
     drawCachedRects();
     drawCachedLines();
     canvas.removeEventListener("mousemove", drawRect);
@@ -137,10 +146,11 @@ function drawCachedLines() {
 
 function drawCachedRects() {
     rects.forEach(_rect => {
-        const { topX, topY, botX, botY } = _rect;
-        context.fillStyle = 'black';
-        context.fillRect(topX, topY, botX - topX, botY - topY);
-        context.fill();
+        Drawing.DrawRect(_rect, context);
+        // const { topX, topY, botX, botY } = _rect;
+        // context.fillStyle = 'black';
+        // context.fillRect(topX, topY, botX - topX, botY - topY);
+        // context.fill();
     })
 }
 
@@ -151,4 +161,8 @@ function checkClickedRect(x, y) {
         if (topX < x < (botX - topX) && topY < y < (botY - topY)) return i;
     }
     return -1;
+}
+
+function initDrawButtons() {
+    
 }
