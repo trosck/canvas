@@ -8,6 +8,18 @@ const rects = [];
 
 const lines = [];
 
+const buttons = [{
+    topX: 10,
+    topY: 10,
+    botX: 110,
+    botY: 40
+},{
+    topX: 150,
+    topY: 10,
+    botX: 110,
+    botY: 40
+}];
+
 const line = {
     topX: 0,
     topY: 0,
@@ -22,18 +34,47 @@ const rect = {
     botY: 0
 };
 
+
+const drawButton =  {
+    // create button
+    create(fillInner = "white", fillBorder = "black", fillText = "black") {
+        context.fillStyle = fillBorder;
+        context.fillRect(10, 10, 110, 40);
+        
+        context.fillStyle = fillInner;
+        context.fillRect(12, 12, 106, 36);
+
+        context.fillStyle = fillText;
+        context.font = "20px serif";
+        context.fillText("Create rect", 20, 35);
+    },
+
+    // one more button
+    oneMore(fillInner = "white", fillBorder = "black", fillText = "black") {
+        context.fillStyle = fillBorder;
+        context.fillRect(150, 10, 110, 40);
+
+        context.fillStyle = fillInner;
+        context.fillRect(152, 12, 106, 36);
+
+        context.fillStyle = fillText;
+        context.font = "20px serif";
+        context.fillText("Create rect", 160, 35);
+    }
+}
+
 // animatoin, im not using this right now, but will be later
 window.RAF = (function(){ 
     return  (
         window.requestAnimationFrame       || 
         window.webkitRequestAnimationFrame || 
         window.mozRequestAnimationFrame    || 
-        window.oRequestAnimationFrame      || 
+        window.oRequestAnimationFrame      ||
         window.msRequestAnimationFrame     || 
-        function( callback ){ 
+        function(callback){ 
             window.setTimeout(callback, 1000 / 60); 
         }
-    ) 
+    )
 })();
 
 // width and height user window
@@ -45,24 +86,32 @@ const {
 canvas.width = width;
 canvas.height = height;
 
-initDrawButtons();
+drawButton.create();
+drawButton.oneMore();
 
 // canvas clicked and line start drawing
 let clicked = false;
 
 const log = (...text) => console.log(...text);
 
-canvas.addEventListener("click", checkClickedArea);
-
-function checkClickedArea(event) {
-    const { clientX: x, clientY: y, type } = event;
-
-}
-
+// events
+// canvas.addEventListener("mouseover", handleMouseOver);
 canvas.addEventListener("mousedown", drawRect);
 canvas.addEventListener("mouseup", cancelDrawRect);
 document.body.addEventListener("keyup", log);
 canvas.addEventListener("dblclick", startLine);
+
+function handleMouseOver(event) {
+    const { clientX: x, clientY: y } = event;
+    buttons.forEach((button, index) => {
+        const { topX, topY, botX, botY } = button;
+        console.log(button, x, y)
+        if (topX > x > botX && topY > y > botY) {
+            index === 0 ? drawButton.create("yellow") : 
+            index === 1 ? drawButton.oneMore("yellow") : null;
+        }
+    })
+}
 
 function startLine(event) {
     const { clientX: x, clientY: y, type } = event;
@@ -161,8 +210,4 @@ function checkClickedRect(x, y) {
         if (topX < x < (botX - topX) && topY < y < (botY - topY)) return i;
     }
     return -1;
-}
-
-function initDrawButtons() {
-    
 }
