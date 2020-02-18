@@ -16,7 +16,7 @@ const buttons = [{
 },{
     topX: 150,
     topY: 10,
-    botX: 110,
+    botX: 260,
     botY: 40
 }];
 
@@ -95,7 +95,7 @@ let clicked = false;
 const log = (...text) => console.log(...text);
 
 // events
-// canvas.addEventListener("mouseover", handleMouseOver);
+canvas.addEventListener("mouseover", handleMouseOver);
 canvas.addEventListener("mousedown", drawRect);
 canvas.addEventListener("mouseup", cancelDrawRect);
 document.body.addEventListener("keyup", log);
@@ -106,7 +106,7 @@ function handleMouseOver(event) {
     buttons.forEach((button, index) => {
         const { topX, topY, botX, botY } = button;
         console.log(button, x, y)
-        if (topX > x > botX && topY > y > botY) {
+        if (topX < x < (botX - topX) && topY < y < (botY - topY)) {
             index === 0 ? drawButton.create("yellow") : 
             index === 1 ? drawButton.oneMore("yellow") : null;
         }
