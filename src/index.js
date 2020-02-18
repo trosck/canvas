@@ -1,6 +1,7 @@
 const canvas = document.getElementById("canvas");
 const context = canvas.getContext("2d");
-// import { Drawing } from "./draw.js"; // i dont know why, but that doesnt imported,
+import "./style.scss";
+import { Drawing } from "./draw.js"; // i dont know why, but that doesnt imported,
 //                                         and im just import this above in html
 let windowSizeCoefficient = 1;
 

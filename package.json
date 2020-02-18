@@ -2,13 +2,18 @@
   "name": "canvas",
   "version": "0.0.1",
   "description": "no",
-  "main": "index.js",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "css-loader": "^3.4.2",
+    "node-sass": "^4.13.1",
+    "sass-loader": "^8.0.2",
+    "style-loader": "^1.1.3",
     "webpack": "^4.41.6",
     "webpack-cli": "^3.3.11"
   }
