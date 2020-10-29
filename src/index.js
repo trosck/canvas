@@ -94,7 +94,7 @@ drawButton.oneMore();
 // canvas clicked and line start drawing
 let clicked = false;
 
-const log = (...text) => console.log(...text);
+const log = console.log;
 
 // events
 canvas.addEventListener("mouseover", handleMouseOver);
