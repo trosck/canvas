@@ -11,21 +11,5 @@ module.exports = {
   devServer: {
     contentBase: "./dist",
     hot: true
-  },
-  module: {
-    rules: [{
-      test: /\.css$/,
-      use: [
-        "style-loader",
-        "css-loader"
-      ]
-    },{
-      test: /\.s[ac]ss$/i,
-      use: [
-        "style-loader",
-        "css-loader",
-        "sass-loader"
-      ]
-    }]
   }
 }
